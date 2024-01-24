@@ -13,7 +13,7 @@ Then you can finally run:
 ./podfetch.sh <CHANNELS-FILE> <OUTPUT-DIR> <MAX-DOWNLOADS-PER-CHANNEL>
 ```
 
-This will create `.mp3` files in the `OUTPUT-DIR` with the format `PODCAST - TITLE`.
+This will create `.mp3` files in the `OUTPUT-DIR` with the format `PODCAST_NAME - TITLE`.
 
 ## Dependencies
 `yt-dlp`

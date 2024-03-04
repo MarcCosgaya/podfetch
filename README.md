@@ -2,7 +2,7 @@
 This is a bash script that automatically downloads podcasts from a list of YouTube channels/playlists.
 
 ## Use
-Create a text files with a channel description for each line as follows:
+Create a text file with a channel/playlist name for each line as follows:
 ```URL|PODCAST_NAME|```
 
 Optionally, you can start in reverse order (oldest first):

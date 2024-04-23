@@ -20,25 +20,24 @@ do
 	flags=`echo $line | cut -d "|" -f3`
 	domain=`echo $url | cut -d "/" -f3`
 
-	if [ "$flags" = "" ]; then
-		if [ "$domain" = "www.youtube.com" ]; then
-			yt-dlp $url -f bestaudio -x --audio-format mp3 --max-downloads $3 --match-filter "duration>600" -o "$name - %(title)s.%(ext)s"
-		elif [ "$domain" = "www.rumble.com" ]; then
-			yt-dlp $url -f mp4-360p-1 -x --audio-format mp3 --max-downloads $3 --match-filter "duration>600" -o "$name - %(title)s.%(ext)s"
-		else
-			yt-dlp $url -x --audio-format mp3 --max-downloads $3 --match-filter "duration>600" -o "$name - %(title)s.%(ext)s"
-		fi
-	elif [ "$flags" = "r" ]; then
-		if [ "$domain" = "www.youtube.com" ]; then
-			yt-dlp $url -f bestaudio -x --audio-format mp3 --max-downloads $3 --match-filter "duration>600" --playlist-reverse -o "$name - %(title)s.%(ext)s"
-		elif [ "$domain" = "www.rumble.com" ]; then
-			yt-dlp $url -f mp4-360p-0 -x --audio-format mp3 --max-downloads $3 --match-filter "duration>600" --playlist-reverse -o "$name - %(title)s.%(ext)s"
-		else
-			yt-dlp $url -x --audio-format mp3 --max-downloads $3 --match-filter "duration>600" --playlist-reverse -o "$name - %(title)s.%(ext)s"
-		fi
-	else
-		echo "Wrong flags for '${name}'"
+	commandString='yt-dlp $url -x --audio-format mp3 --max-downloads $3 --match-filter "duration>1800" -o "$name - %(title)s.%(ext)s"'
+	if [[ "$domain" == *"youtube"* ]]; then
+		append='-f bestaudio'
+		commandString="$commandString $append"
+	elif [[ "$domain" == *"rumble"* ]]; then
+		append='-f mp4-360p-1'
+		commandString="$commandString $append"
+	elif [[ "$domain" == *"odysee"* ]]; then
+		append='-f hls-215'
+		commandString="$commandString $append"
 	fi
+
+	if [[ "$flags" == *"r"* ]]; then
+		append='--playlist-reverse'
+		commandString="$commandString $append"
+	fi
+
+	eval $commandString
 done < "$1"
 printf '\a';
 

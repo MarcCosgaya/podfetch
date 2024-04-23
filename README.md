@@ -19,4 +19,4 @@ This will create `.mp3` files in the `OUTPUT-DIR` with the format `PODCAST_NAME 
 `yt-dlp`
 
 ## Supported platforms
-The script currently supports YouTube and Rumble podcasts.
+The script currently supports YouTube, Rumble and Odysee.

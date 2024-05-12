@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sleep 1
-
 if [ ! $# -eq 3 ]; then
 	echo "Use: $0 <CHANNELS-FILE> <OUTPUT-DIR> <MAX-DOWNLOADS-PER-CHANNEL>"
 	sleep 2
@@ -11,6 +9,7 @@ fi
 if [ ! -d "$2" ]; then
 	mkdir "$2"
 fi
+file=`pwd`/$1
 cd "$2"
 
 while read line
@@ -20,7 +19,7 @@ do
 	flags=`echo $line | cut -d "|" -f3`
 	domain=`echo $url | cut -d "/" -f3`
 
-	commandString='yt-dlp $url -x --audio-format mp3 --max-downloads $3 --match-filter "duration>1800" -o "$name - %(title)s.%(ext)s"'
+	commandString='yt-dlp $url -x --audio-format mp3 --max-downloads $3 --match-filter "duration>600" -o "$name - %(title)s.%(ext)s"'
 	if [[ "$domain" == *"youtube"* ]]; then
 		append='-f bestaudio'
 		commandString="$commandString $append"
@@ -28,7 +27,7 @@ do
 		append='-f mp4-360p-1'
 		commandString="$commandString $append"
 	elif [[ "$domain" == *"odysee"* ]]; then
-		append='-f hls-215'
+		append='-f original'
 		commandString="$commandString $append"
 	fi
 
@@ -38,7 +37,7 @@ do
 	fi
 
 	eval $commandString
-done < "$1"
+done < "$file"
 printf '\a';
 
 sleep 2

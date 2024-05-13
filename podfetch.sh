@@ -9,7 +9,13 @@ fi
 if [ ! -d "$2" ]; then
 	mkdir "$2"
 fi
-file=`pwd`/$1
+
+if [[ "$1" == /* ]]; then
+	file=$1
+else
+	file=`pwd`/$1
+fi
+echo $file
 cd "$2"
 
 while read line

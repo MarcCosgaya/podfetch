@@ -23,26 +23,15 @@ do
 	url=`echo $line | cut -d "|" -f1`
 	name=`echo $line | cut -d "|" -f2`
 	flags=`echo $line | cut -d "|" -f3`
-	domain=`echo $url | cut -d "/" -f3`
 
-	commandString='yt-dlp $url -x --audio-format mp3 --max-downloads $3 --match-filter "duration>600" -o "$name - %(title)s.%(ext)s"'
-	if [[ "$domain" == *"youtube"* ]]; then
-		append='-f bestaudio'
-		commandString="$commandString $append"
-	elif [[ "$domain" == *"rumble"* ]]; then
-		append='-f mp4-360p-1'
-		commandString="$commandString $append"
-	elif [[ "$domain" == *"odysee"* ]]; then
-		append='-f original'
-		commandString="$commandString $append"
-	fi
+	commandStr="yt-dlp $url -x --audio-format mp3 --max-downloads $3 --match-filter 'duration>600' -o '$name - %(title)s.%(ext)s' -S +size,+br -f ba/ba*"
 
 	if [[ "$flags" == *"r"* ]]; then
 		append='--playlist-reverse'
-		commandString="$commandString $append"
+		commandStr="$commandStr $append"
 	fi
 
-	eval $commandString
+	eval $commandStr
 done < "$file"
 printf '\a';
 
